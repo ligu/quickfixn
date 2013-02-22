@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Security.Authentication;
-using System.Text;
 
 namespace QuickFix
 {
@@ -51,6 +48,22 @@ namespace QuickFix
         /// The certificate password.
         /// </value>
         public string CertificatePassword { get; internal set; }
+
+        /// <summary>
+        /// Gets the certificate store name
+        /// </summary>
+        /// <value>
+        /// The certificate store name
+        /// </value>
+        public string StoreName { get; internal set; }
+
+        /// <summary>
+        /// Gets the certificate store location
+        /// </summary>
+        /// <value>
+        /// The certificate store location
+        /// </value>
+        public string StoreLocation { get; internal set; }
 
         /// <summary>
         /// Gets the SSL protocol to use (for initiator) or accept (for acceptor)
@@ -104,6 +117,8 @@ namespace QuickFix
             SslProtocol = SslProtocols.Default;
             CheckCertificateRevocation = true;
             RequireClientCertificate = true;
+            StoreName = "My";
+            StoreLocation = "CurrentUser";
         }
 
         /// <summary>
@@ -130,6 +145,12 @@ namespace QuickFix
 
             if (dictionary.Has(SessionSettings.SSL_CERTIFICATE_PASSWORD))
                 CertificatePassword = dictionary.GetString(SessionSettings.SSL_CERTIFICATE_PASSWORD);
+
+            if (dictionary.Has(SessionSettings.SSL_STORE_NAME))
+                StoreName = dictionary.GetString(SessionSettings.SSL_STORE_NAME);
+
+            if (dictionary.Has(SessionSettings.SSL_STORE_LOCATION))
+                StoreLocation = dictionary.GetString(SessionSettings.SSL_STORE_LOCATION);
 
             if (dictionary.Has(SessionSettings.SSL_VALIDATE_CERTIFICATES))
                 ValidateCertificates = dictionary.GetBool(SessionSettings.SSL_VALIDATE_CERTIFICATES);
